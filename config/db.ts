@@ -1,14 +1,15 @@
 import mongoose from "mongoose";
 import config from "./config";
 
-const connectDB = () => {
+const connectDB = async (): Promise<void> => {
   try {
-    console.log(config.MONGO_URI);
-    console.log(config);
-    mongoose.connect(config.MONGO_URI);
-    console.log("Database connected");
+    console.log("Connecting to DB...");
+    await mongoose.connect(config.MONGO_URI);
+    console.log("✅ Database connected");
   } catch (error) {
-    console.log("error connecting the database", error);
+    console.error("❌ Error connecting to the database:", error);
+    throw error; // Let the caller (main file) handle it
   }
 };
+
 export default connectDB;

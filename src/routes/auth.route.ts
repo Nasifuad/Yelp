@@ -1,9 +1,11 @@
 import { Router } from "express";
+import { journalRoute } from "./journal.route";
+import { signUp } from "../controllers/auth.controller";
+const router = Router();
 
-const route = Router();
-
-route.get("/", (req, res) => {
-  res.send("Hello World! from auth");
+router.post("/signup", signUp);
+router.use("/journal", (req, res) => {
+  res.send("Journal route");
 });
 
-export const authRoute = route;
+export const authRoute = router;
