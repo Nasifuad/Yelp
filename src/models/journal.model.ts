@@ -18,3 +18,6 @@ const journalSchema = new mongoose.Schema({
     default: Date.now,
   },
 });
+
+const Journal = mongoose.model("Journal", journalSchema);
+export default Journal;
