@@ -1,6 +1,9 @@
 import mongoose, { Schema } from "mongoose";
-
-const userSchema = new mongoose.Schema({
+import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
+import config from "../../config/config";
+import { IAuth } from "../Interface/User.interface";
+const userSchema = new mongoose.Schema<IAuth>({
   userName: {
     type: String,
     required: true,
@@ -17,5 +20,27 @@ const userSchema = new mongoose.Schema({
   },
 });
 
-const User = mongoose.model("User", userSchema);
+userSchema.pre("save", async function (this: IAuth, next) {
+  if (!this.isModified("password")) {
+    return next();
+  }
+  const salt = await bcrypt.genSalt(10);
+  this.password = await bcrypt.hash(this.password, salt);
+  next();
+});
+
+userSchema.methods.matchPassword = async function (
+  this: IAuth,
+  enteredPassword: string
+): Promise<boolean> {
+  return await bcrypt.compare(enteredPassword, this.password);
+};
+
+userSchema.methods.generateToken = function (this: IAuth): string {
+  return jwt.sign({ id: this._id }, config.JWT_SECRET, {
+    expiresIn: "11d",
+  });
+};
+
+const User = mongoose.model<IAuth>("User", userSchema);
 export default User;

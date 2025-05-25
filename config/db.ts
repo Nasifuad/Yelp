@@ -8,7 +8,7 @@ const connectDB = async (): Promise<void> => {
     console.log("✅ Database connected");
   } catch (error) {
     console.error("❌ Error connecting to the database:", error);
-    throw error; // Let the caller (main file) handle it
+    throw error;
   }
 };
 
