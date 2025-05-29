@@ -1,15 +1,13 @@
-# journal_backend
+### Welcome to the Journal Website @@@
 
-To install dependencies:
+## Copy this git link and run git clone #_link_#
 
-```bash
-bun install
-```
+### create .env --- and add your MONGO_URI, PORT and JWT_Secret
 
-To run:
+### run bun add
 
-```bash
-bun run 
-```
+### then run bun run dev and the project would work fine----
 
-This project was created using `bun init` in bun v1.2.13. [Bun](https://bun.sh) is a fast all-in-one JavaScript runtime.
+# I have implemented two backend logic one for AUTH and other for JOURNAL----
+
+### One can login and post their journal and can track the progress etc.. and I will make a github like daily tracker.

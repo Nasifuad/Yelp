@@ -10,13 +10,13 @@ const verifyToken = async (
   try {
     const token = req.cookies.token;
     if (!token) {
-      res.status(401).json({ message: "Unauthorized" });
+      res.status(401).json({ message: "Unauthorized because no token" });
     }
     const decoded = jwt.verify(token, config.JWT_SECRET) as jwt.JwtPayload;
-    req.user = decoded;
+    req.user = decoded.userName;
     next();
   } catch (error) {
-    res.status(401).json({ message: "Unauthorized" });
+    res.status(401).json({ message: "Unauthorized error" });
   }
 };
 
