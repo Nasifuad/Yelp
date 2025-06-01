@@ -6,7 +6,6 @@ export interface IAuth extends Document {
   password: string;
   avatar?: string;
   matchPassword(enteredPassword: string): Promise<boolean>;
-  generateToken(): string;
 }
 
 export interface IJournal extends Document {

@@ -16,7 +16,8 @@ const journalSchema = new mongoose.Schema<IJournal>({
   },
   tags: {
     type: [String],
-    required: true,
+    required: false,
+    default: ["daily"],
   },
   createdAt: {
     type: Date,

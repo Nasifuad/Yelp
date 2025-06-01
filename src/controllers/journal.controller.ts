@@ -2,6 +2,7 @@ import Journal from "../models/journal.model";
 import { Response, Request } from "express";
 import { ResponseError } from "../error/response.error";
 import asyncHandler from "../services/asyncHandler";
+import { JwtPayload } from "jsonwebtoken";
 const getJournal = async (req: Request, res: Response): Promise<void> => {
   try {
     const journal = await Journal.find();
@@ -14,7 +15,7 @@ const getJournal = async (req: Request, res: Response): Promise<void> => {
 const postJournal = asyncHandler(
   async (req: Request, res: Response): Promise<void> => {
     try {
-      const userName = req.user;
+      const { userName } = req.user as JwtPayload;
       const { title, body, tags } = req.body;
       const journal = await Journal.create({
         title,
@@ -25,7 +26,10 @@ const postJournal = asyncHandler(
       res.json(journal);
       console.log(journal);
     } catch (error) {
-      new ResponseError("Error occured at postJournal controller");
+      res
+        .status(400)
+        .json({ message: "Error occured at postJournal controller" });
+      console.log("Error occured at postJournal controller", error);
     }
   }
 );
@@ -37,13 +41,13 @@ const updateJournal = asyncHandler(
       const journalId = req.params.id;
       const { title, body, tags } = req.body;
       const journal = await Journal.findOneAndUpdate(
-        { _id: journalId, author: userName },
+        { _id: journalId },
         { title, body, tags },
         { new: true }
       );
       res.json(journal);
     } catch (error) {
-      new ResponseError("Error occured at updateJournal controller");
+      res.json({ message: "Error occured at updateJournal controller", error });
     }
   }
 );

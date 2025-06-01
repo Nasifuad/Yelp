@@ -1,7 +1,5 @@
 import mongoose, { Schema } from "mongoose";
 import bcrypt from "bcrypt";
-import jwt from "jsonwebtoken";
-import config from "../../config/config";
 import { IAuth } from "../Interface/User.interface";
 const userSchema = new mongoose.Schema<IAuth>({
   userName: {
@@ -39,12 +37,6 @@ userSchema.methods.matchPassword = async function (
   enteredPassword: string
 ): Promise<boolean> {
   return await bcrypt.compare(enteredPassword, this.password);
-};
-
-userSchema.methods.generateToken = function (this: IAuth): string {
-  return jwt.sign({ id: this._id }, config.JWT_SECRET, {
-    expiresIn: "11d",
-  });
 };
 
 const User = mongoose.model<IAuth>("User", userSchema);

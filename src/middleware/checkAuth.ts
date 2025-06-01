@@ -13,7 +13,11 @@ const verifyToken = async (
       res.status(401).json({ message: "Unauthorized because no token" });
     }
     const decoded = jwt.verify(token, config.JWT_SECRET) as jwt.JwtPayload;
-    req.user = decoded.userName;
+    req.user = decoded;
+    console.log(
+      "🚀 ~ file: checkAuth.ts:12 ~ verifyToken ~ req.user:",
+      req.user
+    );
     next();
   } catch (error) {
     res.status(401).json({ message: "Unauthorized error" });

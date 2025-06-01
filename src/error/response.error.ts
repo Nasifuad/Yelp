@@ -1,9 +1,13 @@
 import { Error } from "mongoose";
 
 export class ResponseError extends Error {
-  constructor(message: string, public status: number = 500) {
+  status: number;
+
+  constructor(message: string, status: number = 500) {
     super(message);
+    Object.setPrototypeOf(this, ResponseError.prototype); // Important for instanceof to work
+
     this.name = "ResponseError";
-    this.status = status;
+    this.status = status; // ✅ Now works safely
   }
 }

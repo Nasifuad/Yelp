@@ -9,9 +9,9 @@ import {
 
 const router = Router();
 
-router.post("/", verifyToken, postJournal);
-router.get("/", verifyToken, getJournal);
-router.put("/:id", verifyToken, updateJournal);
-router.delete("/:id", verifyToken, deleteJournal);
+router.post("/postJournal", verifyToken, postJournal);
+router.get("/getJournal", verifyToken, getJournal);
+router.post("/update/:id", verifyToken, updateJournal);
+router.delete("/delete/:id", verifyToken, deleteJournal);
 
 export const journalRoute = router;

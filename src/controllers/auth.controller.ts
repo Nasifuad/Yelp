@@ -50,13 +50,10 @@ const login = async (req: Request, res: Response): Promise<any> => {
     }
 
     // Generate token using instance method
-    const token = checkUser.generateToken();
+    const token = generateToken(userName);
 
-    res.cookie("token", token, {
-      httpOnly: true,
-      secure: true,
-    });
-
+    res.cookie("token", token);
+    console.log(token);
     res.json({
       message: "Login successful",
       token,
