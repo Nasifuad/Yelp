@@ -23,7 +23,11 @@ const postJournal = asyncHandler(
         author: userName,
         tags,
       });
-      res.json(journal);
+      res.json({
+        journal,
+        message: "Journal created successfully",
+        response: 200,
+      });
       console.log(journal);
     } catch (error) {
       res
@@ -45,9 +49,17 @@ const updateJournal = asyncHandler(
         { title, body, tags },
         { new: true }
       );
-      res.json(journal);
+      res.json({
+        message: "Journal updated successfully",
+        journal,
+        response: 200,
+      });
     } catch (error) {
-      res.json({ message: "Error occured at updateJournal controller", error });
+      res.json({
+        message: "Error occured at updateJournal controller",
+        error,
+        response: 400,
+      });
     }
   }
 );
@@ -60,7 +72,11 @@ const deleteJournal = asyncHandler(
         _id: journalId,
         author: userName,
       });
-      res.json(journal);
+      res.json({
+        message: "Journal deleted successfully",
+        journal,
+        response: 200,
+      });
     } catch (error) {
       new ResponseError("Error occured at deleteJournal controller");
     }
