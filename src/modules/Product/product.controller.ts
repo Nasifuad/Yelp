@@ -25,9 +25,33 @@ const getAllProducts = async (
   }
 };
 
-const getProductById = async (req: Request, res: Response) => {
-  // Logic to get one product by id
-  res.status(200).json({ message: `Get product ${req.params.id}` });
+const getProductById = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const id = req.params.id;
+
+    console.log(`Fetching product with ID: ${id}`);
+
+    const product = await ProductModel.findById({
+      _id: id,
+    });
+
+    if (!product) {
+      return res
+        .status(404)
+        .json({ success: false, message: "Product not found" });
+    }
+    res.status(200).json({
+      success: true,
+      data: product,
+      message: `Product with ID ${id} fetched successfully`,
+    });
+  } catch (error) {
+    next(error);
+  }
 };
 
 const createProduct = async (
