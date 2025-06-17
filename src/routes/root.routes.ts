@@ -1,6 +1,8 @@
 import { Router } from "express";
 import { authRoute } from "./auth.route";
 import { journalRoute } from "./journal.route";
+import { productRoute } from "../modules/Product/product.route";
+
 const router = Router();
 
 const route = [
@@ -11,6 +13,10 @@ const route = [
   {
     path: "/journal",
     route: journalRoute,
+  },
+  {
+    path: "/product",
+    route: productRoute,
   },
 ];
 
