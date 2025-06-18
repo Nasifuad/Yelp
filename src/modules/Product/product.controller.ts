@@ -1,6 +1,9 @@
 import { Request, Response, NextFunction } from "express";
 import ProductModel from "./product.model";
+<<<<<<< HEAD
 import { errorHandler } from "../../utility/errorHandler";
+=======
+>>>>>>> 3ebd69431119d03db74c706a0d01db688aedf288
 
 const getAllProducts = async (
   req: Request,
@@ -26,9 +29,39 @@ const getAllProducts = async (
   }
 };
 
+<<<<<<< HEAD
 const getProductById = async (req: Request, res: Response) => {
   // Logic to get one product by id
   res.status(200).json({ message: `Get product ${req.params.id}` });
+=======
+const getProductById = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const id = req.params.id;
+
+    console.log(`Fetching product with ID: ${id}`);
+
+    const product = await ProductModel.findById({
+      _id: id,
+    });
+
+    if (!product) {
+      return res
+        .status(404)
+        .json({ success: false, message: "Product not found" });
+    }
+    res.status(200).json({
+      success: true,
+      data: product,
+      message: `Product with ID ${id} fetched successfully`,
+    });
+  } catch (error) {
+    next(error);
+  }
+>>>>>>> 3ebd69431119d03db74c706a0d01db688aedf288
 };
 
 const createProduct = async (
@@ -77,6 +110,10 @@ const createProduct = async (
       user,
     });
     res.status(201).json({ success: true, data: product });
+<<<<<<< HEAD
+=======
+    console.log("Product created successfully:", product);
+>>>>>>> 3ebd69431119d03db74c706a0d01db688aedf288
   } catch (error) {
     next(error);
   }
