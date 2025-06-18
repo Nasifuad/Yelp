@@ -1,4 +1,4 @@
-import { generateToken } from "../utils/ token";
+import { generateToken } from "../utils/token";
 import User from "../models/auth.model";
 import { Request, response, Response } from "express";
 
