@@ -15,7 +15,6 @@ const allowedOrigins = [
 
 app.use(
   cors({
-<<<<<<< HEAD
     origin: function (origin, callback) {
       if (!origin || allowedOrigins.includes(origin)) {
         callback(null, true);
@@ -23,9 +22,6 @@ app.use(
         callback(new Error("Not allowed by CORS"));
       }
     },
-=======
-    origin: "http://localhost:3000",
->>>>>>> 3ebd69431119d03db74c706a0d01db688aedf288
     credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
   })
