@@ -15,10 +15,11 @@ const ProductSchema = new Schema<Product>(
     netWeight: { type: String, required: true, default: "100g" }, // e.g. "100g"
     flavor: { type: String, default: "classic" }, // e.g. "vanilla"
     image_small: {
-      type: String,
+      type: [String],
       required: true,
-      default:
+      default: [
         "https://www.cafea.com/fileadmin/_processed_/7/b/csm_C_Thumb_Loeslicher_Kaffee_9f14817bfe.png",
+      ],
     },
     image_big: {
       type: [String],

@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import ProductModel from "./product.model";
+import { uploadToCloudinary } from "../../utils/cloudinary";
 const getAllProducts = async (
   req: Request,
   res: Response,
@@ -28,7 +29,6 @@ const getProductById = async (req: Request, res: Response) => {
   // Logic to get one product by id
   res.status(200).json({ message: `Get product ${req.params.id}` });
 };
-
 const createProduct = async (
   req: Request,
   res: Response,
@@ -48,13 +48,40 @@ const createProduct = async (
       netWeight,
       type,
       flavor,
-      image_small,
-      image_big,
       reviews,
       rating,
       user,
     } = req.body;
-    console.log(req.body);
+    console.log("Request body:", req.body);
+    const image_small: string[] = [];
+    const image_big: string[] = [];
+
+    const files = req.files as {
+      [fieldname: string]: Express.Multer.File[];
+    };
+
+    // Handle image_small[]
+    if (files.image_small) {
+      for (const file of files.image_small) {
+        const result = await uploadToCloudinary(
+          file.buffer,
+          Date.now().toString()
+        );
+        image_small.push((result as any).secure_url);
+      }
+    }
+
+    // Handle image_big[]
+    if (files.image_big) {
+      for (const file of files.image_big) {
+        const result = await uploadToCloudinary(
+          file.buffer,
+          Date.now().toString()
+        );
+        image_big.push((result as any).secure_url);
+      }
+    }
+
     const product = await ProductModel.create({
       name,
       brand,
@@ -74,8 +101,10 @@ const createProduct = async (
       rating,
       user,
     });
+
     res.status(201).json({ success: true, data: product });
   } catch (error) {
+    console.error("Error creating product:", error);
     next(error);
   }
 };

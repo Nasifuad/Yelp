@@ -13,7 +13,7 @@ export interface Product extends Document {
   netWeight: string;
   type: string;
   flavor: string;
-  image_small: string;
+  image_small: string[];
   image_big: string[];
   reviews: number;
   rating: number;
