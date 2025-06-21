@@ -26,8 +26,26 @@ const getAllProducts = async (
 };
 
 const getProductById = async (req: Request, res: Response) => {
-  // Logic to get one product by id
-  res.status(200).json({ message: `Get product ${req.params.id}` });
+  try {
+    const { id } = req.params;
+    console.log("Fetching product with ID:", id);
+    // Validate MongoDB ObjectId format
+    if (!id.match(/^[0-9a-fA-F]{24}$/)) {
+      return res.status(400).json({ message: "Invalid product ID format" });
+    }
+
+    // Query using _id
+    const product = await ProductModel.findById(id);
+
+    if (!product) {
+      return res.status(404).json({ message: "Product not found" });
+    }
+
+    res.status(200).json(product);
+  } catch (error) {
+    console.error("Error fetching product:", error);
+    res.status(500).json({ message: "Server error" });
+  }
 };
 const createProduct = async (
   req: Request,
